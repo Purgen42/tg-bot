@@ -2,6 +2,7 @@ package com.example.tgbot.service.handler;
 
 import com.example.tgbot.service.manager.feedback.FeedbackManager;
 import com.example.tgbot.service.manager.help.HelpManager;
+import com.example.tgbot.service.manager.progress_control.ProgressControlManager;
 import com.example.tgbot.service.manager.start.StartManager;
 import com.example.tgbot.service.manager.task.TaskManager;
 import com.example.tgbot.service.manager.timetable.TimetableManager;
@@ -25,18 +26,21 @@ public class CommandHandler {
     final FeedbackManager feedbackManager;
     final TimetableManager timetableManager;
     final TaskManager taskManager;
+    final ProgressControlManager progressControlManager;
 
     @Autowired
     public CommandHandler(StartManager startManager,
                           HelpManager helpManager,
                           FeedbackManager feedbackManager,
                           TimetableManager timetableManager,
-                          TaskManager taskManager) {
+                          TaskManager taskManager,
+                          ProgressControlManager progressControlManager) {
         this.startManager = startManager;
         this.helpManager = helpManager;
         this.feedbackManager = feedbackManager;
         this.timetableManager = timetableManager;
         this.taskManager = taskManager;
+        this.progressControlManager = progressControlManager;
     }
 
     public BotApiMethod<?> answer(Message message, Bot bot) {
@@ -56,6 +60,9 @@ public class CommandHandler {
             }
             case TASK -> {
                 return taskManager.answerCommand(message, bot);
+            }
+            case PROGRESS -> {
+                return progressControlManager.answerCommand(message, bot);
             }
             default -> {
                 return defaultAnswer(message);

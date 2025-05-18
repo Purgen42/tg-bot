@@ -1,5 +1,7 @@
 package com.example.tgbot.service;
 
+import com.example.tgbot.entity.user.User;
+import com.example.tgbot.repository.UserRepository;
 import com.example.tgbot.service.handler.CallbackQueryHandler;
 import com.example.tgbot.service.handler.CommandHandler;
 import com.example.tgbot.service.handler.MessageHandler;
@@ -18,9 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 public class UpdateDispatcher {
     final MessageHandler messageHandler;
-
     final CommandHandler commandHandler;
-
     final CallbackQueryHandler callbackQueryHandler;
 
     @Autowired

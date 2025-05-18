@@ -2,6 +2,7 @@ package com.example.tgbot.service.handler;
 
 import com.example.tgbot.service.manager.feedback.FeedbackManager;
 import com.example.tgbot.service.manager.help.HelpManager;
+import com.example.tgbot.service.manager.progress_control.ProgressControlManager;
 import com.example.tgbot.service.manager.task.TaskManager;
 import com.example.tgbot.service.manager.timetable.TimetableManager;
 import com.example.tgbot.telegram.Bot;
@@ -21,16 +22,19 @@ public class CallbackQueryHandler {
     final FeedbackManager feedbackManager;
     final TimetableManager timetableManager;
     final TaskManager taskManager;
+    final ProgressControlManager progressControlManager;
 
     @Autowired
     public CallbackQueryHandler(HelpManager helpManager,
                                 FeedbackManager feedbackManager,
                                 TimetableManager timetableManager,
-                                TaskManager taskManager) {
+                                TaskManager taskManager,
+                                ProgressControlManager progressControlManager) {
         this.helpManager = helpManager;
         this.feedbackManager = feedbackManager;
         this.timetableManager = timetableManager;
         this.taskManager = taskManager;
+        this.progressControlManager = progressControlManager;
     }
 
     public BotApiMethod<?> answer(CallbackQuery callbackQuery, Bot bot) {
@@ -41,6 +45,9 @@ public class CallbackQueryHandler {
         }
         if (TASK.equals(keyWord)) {
             return taskManager.answerCallbackQuery(callbackQuery, bot);
+        }
+        if (PROGRESS.equals(keyWord)) {
+            return progressControlManager.answerCallbackQuery(callbackQuery, bot);
         }
         switch (callbackData) {
             case HELP -> {
